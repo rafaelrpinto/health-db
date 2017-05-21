@@ -1,13 +1,15 @@
 {
-  "name": "mapa-saude",
+  "name": "health-db",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "url": "https://github.com/rafaelrpinto/health-db",
+  "description": "Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files.",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Rafale Pinto",
+  "email": "raprp@posteo.de",
+  "license": "MIT",
   "dependencies": {
     "bunyan": "^1.8.10",
     "fast-csv": "^2.4.0",
