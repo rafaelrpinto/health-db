@@ -58,7 +58,7 @@ This key holds the set of possible services offered by the health facilities.
 10) "10:SERVICO DE FISIOTERAPIA"
 ```
 
-- cities:${state}
+- cities:{state}
 
 This key holds the set of cities of a specific state.
 
