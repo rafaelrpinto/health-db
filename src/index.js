@@ -5,7 +5,7 @@ let HealthFacilitiesService = require('./HealthFacilitiesService')
 let service = new HealthFacilitiesService();
 
 // Reads the file with the health intitution
-let stream = fs.createReadStream("files/test.csv");
+let stream = fs.createReadStream("files/cnes.small.csv");
 
 // CSV parsing options
 let parsingOptions = {
