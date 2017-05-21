@@ -1,0 +1,19 @@
+{
+  "name": "mapa-saude",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.10",
+    "fast-csv": "^2.4.0",
+    "redis": "^2.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0"
+  }
+}
