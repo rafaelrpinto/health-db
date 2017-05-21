@@ -1,3 +1,5 @@
+let Promise = require('bluebird');
+// project dependencies
 let EnumGenerator = require('./EnumGenerator')
 let repository = require('./HealthFacilitiesRepository')
 
@@ -20,14 +22,16 @@ class HealthFacilitiesService {
    * Saves a health facility.
    * @param  {Object} healthFacility Facility to be saved.
    */
-  saveFacility(healthFacility) {
-    // adds the facility type to the domain set
+  async saveFacility(healthFacility) {
     let facilityTypeEnum = this.facilityTypeEnumGenerator.generate(healthFacility.type);
-    repository.saveFacilityType(facilityTypeEnum);
-
-    // adds the opening hours to the domain set
     let openingHoursEnum = this.openingHoursEnumGenerator.generate(healthFacility.openingHours);
-    repository.saveOpeningHours(openingHoursEnum);
+
+    await Promise.all([
+      // adds the facility type to the domain set
+      repository.saveFacilityType(facilityTypeEnum),
+      // adds the opening hours to the domain set
+      repository.saveOpeningHours(openingHoursEnum)
+    ]);
 
     // array with ids of the services
     let facilityServices = [];
@@ -36,10 +40,14 @@ class HealthFacilitiesService {
     for (let service of healthFacility.services.split("|")) {
       let serviceName = service.trim();
       let serviceEnum = this.servicesEnumGenerator.generate(serviceName);
-      // adds the service to the domain set
-      repository.saveService(serviceEnum);
-      //adds this facility to the service index
-      repository.associateFacilityWithService(healthFacility.id, serviceEnum.id);
+
+      await Promise.all([
+        // adds the service to the domain set
+        repository.saveService(serviceEnum),
+        //adds this facility to the service index
+        repository.associateFacilityWithService(healthFacility.id, serviceEnum.id)
+      ]);
+
       //adds the numeric id to be associated with the hash later
       facilityServices.push(serviceEnum.id);
     }
@@ -52,7 +60,7 @@ class HealthFacilitiesService {
     });
 
     // saves the facility
-    repository.saveFacility(facilityToBeSaved);
+    return repository.saveFacility(facilityToBeSaved);
   }
 }
 

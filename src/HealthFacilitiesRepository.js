@@ -1,6 +1,6 @@
 let redis = require("redis");
 let bunyan = require("bunyan");
-
+// logger setup
 let log = bunyan.createLogger({name: "redis-logger"});
 
 // https://www.npmjs.com/package/redis#rediscreateclient
@@ -20,7 +20,7 @@ class HealthFacilitiesRepository {}
  * Saves an opening hours global definition.
  * @param  {Object} openingHours opening hours global definition
  */
-HealthFacilitiesRepository.saveOpeningHours = (openingHours) => {
+HealthFacilitiesRepository.saveOpeningHours = async(openingHours) => {
   redisClient.sadd('facility_opening_hours_list', `${openingHours.id}:${openingHours.description}`);
 }
 
@@ -28,7 +28,7 @@ HealthFacilitiesRepository.saveOpeningHours = (openingHours) => {
  * Saves a health facility type global definition.
  * @param  {Object} type health facility type global definition.
  */
-HealthFacilitiesRepository.saveFacilityType = (type) => {
+HealthFacilitiesRepository.saveFacilityType = async(type) => {
   redisClient.sadd('facility_type_list', `${type.id}:${type.description}`);
 }
 
@@ -36,7 +36,7 @@ HealthFacilitiesRepository.saveFacilityType = (type) => {
  * Saves a health facility service global definition.
  * @param  {Object} service health facility service global definition.
  */
-HealthFacilitiesRepository.saveService = (service) => {
+HealthFacilitiesRepository.saveService = async(service) => {
   redisClient.sadd('service_list', `${service.id}:${service.description}`);
 }
 
@@ -45,7 +45,7 @@ HealthFacilitiesRepository.saveService = (service) => {
  * @param  {Integer} facilityId ID of the health faciity.
  * @param  {Integer} serviceId  ID of the service.
  */
-HealthFacilitiesRepository.associateFacilityWithService = (facilityId, serviceId) => {
+HealthFacilitiesRepository.associateFacilityWithService = async(facilityId, serviceId) => {
   redisClient.sadd(`service:${serviceId}`, facilityId);
 }
 
@@ -53,7 +53,7 @@ HealthFacilitiesRepository.associateFacilityWithService = (facilityId, serviceId
  * Stores a health facility.
  * @param  {Object} facility health facility to be stored.
  */
-HealthFacilitiesRepository.saveFacility = (facility) => {
+HealthFacilitiesRepository.saveFacility = async(facility) => {
   // stores the health facility as hash
   redisClient.hmset(`facility:${facility.id}`, [
     'id',

@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.0",
     "bunyan": "^1.8.10",
     "fast-csv": "^2.4.0",
     "redis": "^2.7.1"
