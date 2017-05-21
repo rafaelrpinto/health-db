@@ -134,7 +134,7 @@ This key holds the hash with the details of the facility identified by 'facility
 13) "address.postalCode"
 14) "56506460"
 15) "address.city"
-16) "Arcoverde"
+16) "ARCOVERDE"
 17) "address.state"
 18) "PE"
 19) "address.latitude"
