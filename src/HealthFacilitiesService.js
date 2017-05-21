@@ -1,4 +1,3 @@
-let Promise = require('bluebird');
 // project dependencies
 let EnumGenerator = require('./EnumGenerator')
 let repository = require('./HealthFacilitiesRepository')

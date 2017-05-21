@@ -53,45 +53,46 @@ HealthFacilitiesRepository.associateFacilityWithService = async(facilityId, serv
  * Stores a health facility.
  * @param  {Object} facility health facility to be stored.
  */
-HealthFacilitiesRepository.saveFacility = async(facility) => {
-  // stores the health facility as hash
-  redisClient.hmset(`facility:${facility.id}`, [
-    'id',
-    facility.id,
-    'name',
-    facility.name,
-    'businessName',
-    facility.businessName,
-    'address.street',
-    facility.address.street,
-    'address.number',
-    facility.address.number,
-    'address.neighborhood',
-    facility.address.neighborhood,
-    'address.postalCode',
-    facility.address.postalCode,
-    'address.city',
-    facility.address.city,
-    'address.state',
-    facility.address.state,
-    'address.latitude',
-    facility.latitude,
-    'address.longitude',
-    facility.longitude,
-    'type',
-    facility.type,
-    'phone',
-    facility.phone,
-    'openingHours',
-    facility.openingHours,
-    'services',
-    facility.services,
-    'communityPharmacy',
-    facility.communityPharmacy
+HealthFacilitiesRepository.saveFacility = (facility) => {
+  return Promise.all([
+    // stores the health facility as hash
+    redisClient.hmset(`facility:${facility.id}`, [
+      'id',
+      facility.id,
+      'name',
+      facility.name,
+      'businessName',
+      facility.businessName,
+      'address.street',
+      facility.address.street,
+      'address.number',
+      facility.address.number,
+      'address.neighborhood',
+      facility.address.neighborhood,
+      'address.postalCode',
+      facility.address.postalCode,
+      'address.city',
+      facility.address.city,
+      'address.state',
+      facility.address.state,
+      'address.latitude',
+      facility.latitude,
+      'address.longitude',
+      facility.longitude,
+      'type',
+      facility.type,
+      'phone',
+      facility.phone,
+      'openingHours',
+      facility.openingHours,
+      'services',
+      facility.services,
+      'communityPharmacy',
+      facility.communityPharmacy
+    ]),
+    // adds the health facility to the geographic index
+    redisClient.geoadd('geo_facilities', facility.longitude, facility.latitude, facility.id)
   ]);
-
-  // adds the health facility to the geographic index
-  redisClient.geoadd('geo_facilities', facility.longitude, facility.latitude, facility.id);
 }
 
 module.exports = HealthFacilitiesRepository;

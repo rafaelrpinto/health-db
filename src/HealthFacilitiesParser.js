@@ -1,4 +1,3 @@
-let Promise = require('bluebird');
 let fs = require('fs');
 let csv = require('fast-csv');
 // project dependencies
@@ -43,7 +42,8 @@ class HealthFacilitiesParser {
       let csvStream = csv(parsingOptions).on("data", function(data) {
         // transforms the data structure
         let healthFacility = {
-          id: data.co_ibge,
+          id: data.co_cnes,
+          ibge: data.co_ibge,
           type: val(data.ds_tipo_unidade),
           openingHours: val(data.ds_turno_atendimento),
           services: val(data.ds_servico_especializado),
