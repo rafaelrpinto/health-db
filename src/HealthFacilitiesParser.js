@@ -47,7 +47,6 @@ class HealthFacilitiesParser {
           type: val(data.ds_tipo_unidade),
           openingHours: val(data.ds_turno_atendimento),
           services: val(data.ds_servico_especializado),
-          communityPharmacy: '0',
           name: val(data.no_fantasia),
           businessName: val(data.no_razao_social),
           phone: val(data.nu_telefone),

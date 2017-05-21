@@ -86,9 +86,7 @@ HealthFacilitiesRepository.saveFacility = (facility) => {
       'openingHours',
       facility.openingHours,
       'services',
-      facility.services,
-      'communityPharmacy',
-      facility.communityPharmacy
+      facility.services
     ]),
     // adds the health facility to the geographic index
     redisClient.geoadd('geo_facilities', facility.longitude, facility.latitude, facility.id)

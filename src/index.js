@@ -3,7 +3,6 @@ let bunyan = require("bunyan");
 let HealthFacilitiesParser = require('./HealthFacilitiesParser');
 let log = bunyan.createLogger({name: "app-logger"});
 
-
 async function parseHealthFacilities() {
   let parser = new HealthFacilitiesParser("files/cnes.csv");
   try {
@@ -17,5 +16,4 @@ async function parseHealthFacilities() {
   }
 }
 
-// initiates the parsing
-parseHealthFacilities();
+parseHealthFacilities()
