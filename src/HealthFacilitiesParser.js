@@ -1,5 +1,6 @@
 let fs = require('fs');
 let csv = require('fast-csv');
+let removeAccents = require('remove-accents');
 // project dependencies
 let HealthFacilitiesService = require('./HealthFacilitiesService')
 
@@ -46,7 +47,7 @@ class HealthFacilitiesParser {
           ibge: data.co_ibge,
           type: val(data.ds_tipo_unidade),
           openingHours: val(data.ds_turno_atendimento),
-          services: val(data.ds_servico_especializado),
+          services: val(data.ds_servico_especializado).split("|"),
           name: val(data.no_fantasia),
           businessName: val(data.no_razao_social),
           phone: val(data.nu_telefone),
@@ -82,7 +83,7 @@ function val(value) {
   if (!value) {
     return "N/A";
   }
-  return value;
+  return removeAccents(value).toUpperCase();
 }
 
 module.exports = HealthFacilitiesParser;

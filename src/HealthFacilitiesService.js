@@ -29,22 +29,23 @@ class HealthFacilitiesService {
       // adds the facility type to the domain set
       repository.saveFacilityType(facilityTypeEnum),
       // adds the opening hours to the domain set
-      repository.saveOpeningHours(openingHoursEnum)
+      repository.saveOpeningHours(openingHoursEnum),
+      // adds the city to out domain
+      repository.associateCityWithState(healthFacility.address.city, healthFacility.address.state)
     ]);
 
     // array with ids of the services
     let facilityServices = [];
 
     // creates the services indexes
-    for (let service of healthFacility.services.split("|")) {
-      let serviceName = service.trim();
-      let serviceEnum = this.servicesEnumGenerator.generate(serviceName);
+    for (let service of healthFacility.services) {
+      let serviceEnum = this.servicesEnumGenerator.generate(service.trim());
 
       await Promise.all([
         // adds the service to the domain set
         repository.saveService(serviceEnum),
         //adds this facility to the service index
-        repository.associateFacilityWithService(healthFacility.id, serviceEnum.id)
+        repository.associateFacilityWithService(healthFacility, serviceEnum)
       ]);
 
       //adds the numeric id to be associated with the hash later
