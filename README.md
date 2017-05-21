@@ -1,13 +1,13 @@
-# health-db
-Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files. Bt using redis we can take advantage of it's hability to scale and speed to create apis, apps, etc.
-
-The project is still in it's initial stages. As it goes further I will add proper documentation and tests.
+## Overview
+Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files (Dados Abertos). By using Redis we can take advantage of it's speed to create apis and apps that can improve access to health information in Brazil.
 
 The data processed is available on the Brazilian Government's open data site: http://dados.gov.br/dataset/cnes_ativo
 
+## Data structure
+
 Currently the process takes one minute and organizes the data into Redis keys as described below:
 
-### facility_opening_hours_list
+- facility_opening_hours_list
 
 This key holds the set of possible opening hours definitions for the health facilities.
 
@@ -22,7 +22,7 @@ This key holds the set of possible opening hours definitions for the health faci
 7) "7:ATENDIMENTO SOMENTE A TARDE"
 8) "8:N/A"
 ```
-### facility_type_list
+-  facility_type_list
 
 This key holds the set of possible facility types definitions for the health facilities.
 
@@ -40,7 +40,7 @@ This key holds the set of possible facility types definitions for the health fac
 10) "10:CENTRO DE SAUDE/UNIDADE BASICA"
 ```
 
-### service_list
+- service_list
 
 This key holds the set of possible services offered by the health facilities.
 
@@ -58,7 +58,7 @@ This key holds the set of possible services offered by the health facilities.
 10) "10:SERVICO DE FISIOTERAPIA"
 ```
 
-### cities:${state}
+- cities:{state}
 
 This key holds the set of cities of a specific state.
 
@@ -76,7 +76,7 @@ This key holds the set of cities of a specific state.
 10) "CANTAGALO"
 ```
 
-### service:{serviceId}:{state}
+- service:{serviceId}:{state}
 
 This key holds a set of facilities that offer the service identified by 'serviceId' and a state.
 
@@ -94,7 +94,7 @@ This key holds a set of facilities that offer the service identified by 'service
 10) "2267209"
 ```
 
-### service:{serviceId}:{state}:{city}
+- service:{serviceId}:{state}:{city}
 
 This key holds a set of facilities that offer the service identified by 'serviceId', state and city.
 
@@ -112,7 +112,7 @@ This key holds a set of facilities that offer the service identified by 'service
 10) "2270234"
 ```
 
-### facility:{facilityId}
+- facility:{facilityId}
 
 This key holds the hash with the details of the facility identified by 'facilityId'.
 
@@ -134,7 +134,7 @@ This key holds the hash with the details of the facility identified by 'facility
 13) "address.postalCode"
 14) "56506460"
 15) "address.city"
-16) "Arcoverde"
+16) "ARCOVERDE"
 17) "address.state"
 18) "PE"
 19) "address.latitude"
@@ -151,7 +151,7 @@ This key holds the hash with the details of the facility identified by 'facility
 30) "9,15,60,27,21"
 ```
 
-### geo_facilities
+- geo_facilities
 
 This key indexes all the facilities by it's coordinates allowing geospatial queries. Ex: we are looking for 10 facilities within 5 km radius of a neighborhood in Rio de Janeiro:
 
