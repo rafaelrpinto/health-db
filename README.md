@@ -151,7 +151,7 @@ This key holds the hash with the details of the facility identified by 'facility
 
 ### geo_facilities
 
-This key indexes all the facilities by it's coordinates allowing geospatial queries by the facilitie's id. Ex: we are looking for all facilities within 5 km radius of a neighborhood in Rio de Janeiro:
+This key indexes all the facilities by it's coordinates allowing geospatial queries by the facilitie's id. Ex: we are looking for 10 facilities within 5 km radius of a neighborhood in Rio de Janeiro:
 
 
 ```shell
