@@ -3,6 +3,8 @@ Node.js project that builds a Redis database of Brazilian health facilities base
 
 The data processed is available on the Brazilian Government's open data site: http://dados.gov.br/dataset/cnes_ativo
 
+The api server that accesses this db can be found here: https://github.com/rafaelrpinto/health-api
+
 ## Data structure
 
 Currently the process takes one minute and organizes the data into Redis keys as described below:
