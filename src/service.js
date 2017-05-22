@@ -43,7 +43,7 @@ class HealthFacilitiesService {
     // generates enums
     let facilityTypeEnum = this.facilityTypeEnumGenerator.generate(healthFacility.type);
     let openingHoursEnum = this.openingHoursEnumGenerator.generate(healthFacility.openingHours);
-    let cityEnum = this.openingHoursEnumGenerator.generate(healthFacility.address.city);
+    let cityEnum = this.citiesEnumGenerator.generate(healthFacility.address.city);
 
     // groups redis commands
     let multi = redisClient.batch();
@@ -116,9 +116,9 @@ function hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServic
     cityEnum.id,
     'address.state',
     healthFacility.address.state,
-    'address.latitude',
+    'latitude',
     healthFacility.latitude,
-    'address.longitude',
+    'longitude',
     healthFacility.longitude,
     'type',
     facilityTypeEnum.id,
