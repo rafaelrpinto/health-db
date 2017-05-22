@@ -99,24 +99,6 @@ This key holds the set of cities of a specific state.
 10) "166:MESQUITA"
 ```
 
-- neighborhoods:{cityId}
-
-This key holds the set of neighborhoods of a specific city.
-
-```shell
-127.0.0.1:6379> ZRANGE neighborhoods:42 0 9
- 1) "2:CENTRO"
- 2) "18:JARDIM BANGU"
- 3) "23:BARRA DA TIJUCA"
- 4) "28:SAO CRISTOVAO"
- 5) "33:BOTAFOGO"
- 6) "49:ALTO DA BOA VISTA"
- 7) "88:VILA VALQUEIRE"
- 8) "90:TIJUCA"
- 9) "95:MANGUEIRA"
-10) "98:CAMPINHO"
-```
-
 - service:{serviceId}:{state}
 
 This key holds a set of facilities that offer the service identified by 'serviceId' and a state.
@@ -172,8 +154,6 @@ This key holds the hash with the details of the facility identified by 'facility
 10) "S/N"
 11) "address.neighborhood"
 12) "SAO GERALDO"
-13) "address.neighborhood.id"
-14) "409"
 15) "address.postalCode"
 16) "56506460"
 17) "address.city"

@@ -33,7 +33,6 @@ class HealthFacilitiesService {
     this.openingHoursEnumGenerator = new EnumGenerator();
     this.servicesEnumGenerator = new EnumGenerator();
     this.citiesEnumGenerator = new EnumGenerator();
-    this.neighborhoodEnumGenerator = new EnumGenerator();
   }
 
   /**
@@ -45,7 +44,6 @@ class HealthFacilitiesService {
     let facilityTypeEnum = this.facilityTypeEnumGenerator.generate(healthFacility.type);
     let openingHoursEnum = this.openingHoursEnumGenerator.generate(healthFacility.openingHours);
     let cityEnum = this.openingHoursEnumGenerator.generate(healthFacility.address.city);
-    let neighborhoodEnum = this.neighborhoodEnumGenerator.generate(healthFacility.address.neighborhood);
 
     // groups redis commands
     let multi = redisClient.batch();
@@ -56,8 +54,6 @@ class HealthFacilitiesService {
     multi.zadd(['facility_type_list', facilityTypeEnum.id, `${facilityTypeEnum.id}:${facilityTypeEnum.description}`]);
     // adds the city to our domain
     multi.zadd(`cities:${healthFacility.address.state}`, cityEnum.id, `${cityEnum.id}:${cityEnum.description}`);
-    // adds the neighborhood to our domain
-    multi.zadd(`neighborhoods:${cityEnum.id}`, neighborhoodEnum.id, `${neighborhoodEnum.id}:${neighborhoodEnum.description}`);
 
     // array with ids of the services
     let facilityServices = [];
@@ -79,7 +75,7 @@ class HealthFacilitiesService {
     }
 
     // stores the health facility as hash
-    multi.hmset(`facility:${healthFacility.id}`, hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServices, cityEnum, neighborhoodEnum));
+    multi.hmset(`facility:${healthFacility.id}`, hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServices, cityEnum));
 
     // adds the health facility to the geographic index
     multi.geoadd('geo_facilities', healthFacility.longitude, healthFacility.latitude, healthFacility.id);
@@ -94,12 +90,11 @@ class HealthFacilitiesService {
  * @param  {Object} healthFacility   Facility to be stored.
  * @param  {Object} facilityTypeEnum Type of the facility.
  * @param  {Object} openingHoursEnum Opening hours of the facility.
- * @param  {Object} cityEnum Address city enum.
- * @param  {Object} neighborhoodEnum Address neighborhood enum.
  * @param  {Array} facilityServices Services provided by the facility.
+ * @param  {Object} cityEnum Address city enum.
  * @return {Array}                  Array containing the arguments for hash creation.
  */
-function hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServices, cityEnum, neighborhoodEnum) {
+function hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServices, cityEnum) {
   return [
     'id',
     healthFacility.id,
@@ -112,9 +107,7 @@ function hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServic
     'address.number',
     healthFacility.address.number,
     'address.neighborhood',
-    neighborhoodEnum.description,
-    'address.neighborhood.id',
-    neighborhoodEnum.id,
+    healthFacility.address.neighborhood,
     'address.postalCode',
     healthFacility.address.postalCode,
     'address.city',
