@@ -9,6 +9,23 @@ An example of api server that accesses this db can be found [here](https://githu
 
 Still on initial stages, don't mind the mess.
 
+## Bulding the database
+
+The application connects to a local Redis instance running on 127.0.0.1:6379. (Todo: make the it configurable)
+
+Extract the .gx file located on the files folder. The correct structure should be:
+
+- files/cnes.csv
+- files/cnes.small.csv
+
+To create a db with a small dataset run:
+
+`npm run small`
+
+To create the db with the full dataset run:
+
+`npm run full`
+
 ## Data structure
 
 Currently the process takes one minute and organizes the data into Redis keys as described below:
