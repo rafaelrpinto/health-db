@@ -2,7 +2,7 @@ let redis = require("redis");
 let bunyan = require("bunyan");
 let Promise = require("bluebird");
 // project dependencies
-let EnumGenerator = require('./EnumGenerator')
+let EnumGenerator = require('./enum')
 
 // async redis client
 Promise.promisifyAll(redis.RedisClient.prototype);
@@ -28,7 +28,7 @@ class HealthFacilitiesService {
    * Constructor.
    */
   constructor() {
-    // initiate the internal id generators
+    // initiates the internal id generators
     this.facilityTypeEnumGenerator = new EnumGenerator();
     this.openingHoursEnumGenerator = new EnumGenerator();
     this.servicesEnumGenerator = new EnumGenerator();
@@ -43,8 +43,8 @@ class HealthFacilitiesService {
     let facilityTypeEnum = this.facilityTypeEnumGenerator.generate(healthFacility.type);
     let openingHoursEnum = this.openingHoursEnumGenerator.generate(healthFacility.openingHours);
 
-    // groups the redis commands
-    let multi = redisClient.multi();
+    // groups redis commands
+    let multi = redisClient.batch();
 
     // adds the opening hours to the domain set
     multi.zadd(['facility_opening_hours_list', openingHoursEnum.id, `${openingHoursEnum.id}:${openingHoursEnum.description}`]);
@@ -86,10 +86,10 @@ class HealthFacilitiesService {
 
 /**
  * Generates the hahs argument for a facility.
- * @param  {[type]} healthFacility   Facility to be stored.
- * @param  {[type]} facilityTypeEnum Type of the facility.
- * @param  {[type]} openingHoursEnum Opening hours of the facility.
- * @param  {[type]} facilityServices Services provided by the facility.
+ * @param  {Object} healthFacility   Facility to be stored.
+ * @param  {Object} facilityTypeEnum Type of the facility.
+ * @param  {Object} openingHoursEnum Opening hours of the facility.
+ * @param  {Array} facilityServices Services provided by the facility.
  * @return {Array}                  Array containing the arguments for hash creation.
  */
 function hash(healthFacility, facilityTypeEnum, openingHoursEnum, facilityServices) {

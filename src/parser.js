@@ -2,7 +2,7 @@ let fs = require('fs');
 let csv = require('fast-csv');
 let removeAccents = require('remove-accents');
 // project dependencies
-let HealthFacilitiesService = require('./HealthFacilitiesService')
+let HealthFacilitiesService = require('./service')
 
 /**
  * Class that parses a file containing health facilities.

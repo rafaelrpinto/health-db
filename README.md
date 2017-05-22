@@ -1,11 +1,13 @@
 ## Overview
-Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files (Dados Abertos). 
+Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files (Dados Abertos).
 
 By using Redis as our database we can take advantage of it's speed to create cost-effective apis / apps that can be accessed by a large number of clients requiring as few resources as possible. See more in [How fast is redis?](https://redis.io/topics/benchmarks)
 
 The data processed is available on the Brazilian Government's [open data site](http://dados.gov.br/dataset/cnes_ativo).
 
 An example of api server that accesses this db can be found [here](https://github.com/rafaelrpinto/health-api).
+
+Still on initial stages, don't mind the mess.
 
 ## Data structure
 
