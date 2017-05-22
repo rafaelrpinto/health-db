@@ -5,9 +5,7 @@ By using Redis as our database we can take advantage of it's speed to create cos
 
 The raw data used as input is available on the Brazilian Government's [open data site](http://dados.gov.br/dataset/cnes_ativo).
 
-An example of api server that accesses this db can be found [here](https://github.com/rafaelrpinto/health-api).
-
-Still on initial stages, don't mind the mess.
+An api server that accesses this db can be found [here](https://github.com/rafaelrpinto/health-api).
 
 ## Bulding the database
 
