@@ -181,7 +181,7 @@ This key holds the hash with the details of the facility identified by 'facility
 This key indexes all the facilities by it's coordinates allowing geospatial queries. Ex: we are looking for 10 facilities within 5 km radius of a neighborhood in Rio de Janeiro:
 
 ```shell
-127.0.0.1:6379> GEORADIUS geo_facilities -43.244348 -22.933380 5 km COUNT 10
+127.0.0.1:6379> GEORADIUS geo_facilities -43.244348 -22.933380 5 km COUNT 10 ASC
  1) "5671388"
  2) "7383304"
  3) "7737505"

@@ -16,4 +16,4 @@ async function parseHealthFacilities() {
   }
 }
 
-parseHealthFacilities()
+parseHealthFacilities();
