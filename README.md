@@ -11,9 +11,9 @@ Still on initial stages, don't mind the mess.
 
 ## Bulding the database
 
-The application connects to a local Redis instance running on 127.0.0.1:6379. (Todo: make the it configurable)
+The application connects to a local Redis instance running on 127.0.0.1:6379. (`TODO: make the it configurable`)
 
-Extract the .gx file located on the files folder. The correct structure should be:
+Extract the .gz file located on the files folder. The correct structure should be:
 
 - files/cnes.csv
 - files/cnes.small.csv
