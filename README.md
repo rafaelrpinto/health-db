@@ -69,17 +69,35 @@ This key holds the set of possible services offered by the health facilities.
 This key holds the set of cities of a specific state.
 
 ```shell
-127.0.0.1:6379> SMEMBERS cities:RJ
-1) "CARAPEBUS"
-2) "PARAIBA DO SUL"
-3) "SAO JOSE DO VALE DO RIO PRETO"
-4) "PETROPOLIS"
-5) "SANTA MARIA MADALENA"
-6) "ITABORAI"
-7) "MACAE"
-8) "ARMACAO DOS BUZIOS"
-9) "SAO SEBASTIAO DO ALTO"
-10) "CANTAGALO"
+127.0.0.1:6379> ZRANGE cities:RJ 0 9
+ 1) "37:CANTAGALO"
+ 2) "42:RIO DE JANEIRO"
+ 3) "59:VALENCA"
+ 4) "61:NITEROI"
+ 5) "81:VOLTA REDONDA"
+ 6) "93:MANGARATIBA"
+ 7) "114:AREAL"
+ 8) "129:SAO GONCALO"
+ 9) "153:CAMPOS DOS GOYTACAZES"
+10) "166:MESQUITA"
+```
+
+- neighborhoods:{cityId}
+
+This key holds the set of neighborhoods of a specific city.
+
+```shell
+127.0.0.1:6379> ZRANGE neighborhoods:42 0 9
+ 1) "2:CENTRO"
+ 2) "18:JARDIM BANGU"
+ 3) "23:BARRA DA TIJUCA"
+ 4) "28:SAO CRISTOVAO"
+ 5) "33:BOTAFOGO"
+ 6) "49:ALTO DA BOA VISTA"
+ 7) "88:VILA VALQUEIRE"
+ 8) "90:TIJUCA"
+ 9) "95:MANGUEIRA"
+10) "98:CAMPINHO"
 ```
 
 - service:{serviceId}:{state}
@@ -100,12 +118,12 @@ This key holds a set of facilities that offer the service identified by 'service
 10) "2267209"
 ```
 
-- service:{serviceId}:{state}:{city}
+- service:{serviceId}:{state}:{cityId}
 
-This key holds a set of facilities that offer the service identified by 'serviceId', state and city.
+This key holds a set of facilities that offer the service identified by 'serviceId', state and city id.
 
 ```shell
-127.0.0.1:6379> ZRANGE "service:1:RJ:RIO DE JANEIRO" 0 9
+127.0.0.1:6379> ZRANGE "service:1:RJ:42" 0 9
  1) "2269384"
  2) "2269481"
  3) "2269775"
@@ -137,24 +155,28 @@ This key holds the hash with the details of the facility identified by 'facility
 10) "S/N"
 11) "address.neighborhood"
 12) "SAO GERALDO"
-13) "address.postalCode"
-14) "56506460"
-15) "address.city"
-16) "ARCOVERDE"
-17) "address.state"
-18) "PE"
-19) "address.latitude"
-20) "-8.4180273"
-21) "address.longitude"
-22) "-37.0532275"
-23) "type"
-24) "10"
-25) "phone"
-26) "87 38219010"
-27) "openingHours"
-28) "2"
-29) "services"
-30) "9,15,60,27,21"
+13) "address.neighborhood.id"
+14) "409"
+15) "address.postalCode"
+16) "56506460"
+17) "address.city"
+18) "ARCOVERDE"
+19) "address.city.id"
+20) "83"
+21) "address.state"
+22) "PE"
+23) "address.latitude"
+24) "-8.4180273"
+25) "address.longitude"
+26) "-37.0532275"
+27) "type"
+28) "10"
+29) "phone"
+30) "87 38219010"
+31) "openingHours"
+32) "3"
+33) "services"
+34) "18,27,60,38,23"
 ```
 
 - geo_facilities
