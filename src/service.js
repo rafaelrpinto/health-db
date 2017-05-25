@@ -25,8 +25,11 @@ class HealthFacilitiesService {
     this.openingHoursEnumGenerator = new EnumGenerator();
     this.servicesEnumGenerator = new EnumGenerator();
     this.citiesEnumGenerator = new EnumGenerator();
+
+    //controle vars
     this.rowCount = 0;
     this.countSleeping = false;
+    this.dbVersionSet = false;
 
     // More options on: https://www.npmjs.com/package/redis#rediscreateclient
     this.redisClient = redis.createClient();
@@ -58,6 +61,15 @@ class HealthFacilitiesService {
 
     // groups redis commands
     let multi = this.redisClient.batch();
+
+    if (!this.dbVersionSet) {
+      this.dbVersionSet = true;
+      // save the db version to make client cache expiration smarter
+      let version = new Date().getTime();
+
+      multi.set("db_version", version);
+      log.info(`Creating db version ${version}`);
+    }
 
     // adds the opening hours to the domain set
     multi.zadd(['facility_opening_hours_list', openingHoursEnum.id, `${openingHoursEnum.id}:${openingHoursEnum.description}`]);
