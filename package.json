@@ -5,8 +5,8 @@
   "description": "Node.js project that builds a Redis database of Brazilian health facilities based on government provided CSV files.",
   "main": "src/index.js",
   "scripts": {
-    "small": "node src/index.js files/cnes.small.csv",
-    "full": "node src/index.js files/cnes.csv"
+    "small": "node src/index.js files/cnes.small.csv  | bunyan -o short",
+    "full": "node src/index.js files/cnes.csv  | bunyan -o short"
   },
   "author": "Rafale Pinto",
   "email": "raprp@posteo.de",

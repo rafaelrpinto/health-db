@@ -11,14 +11,6 @@ Promise.promisifyAll(redis.Multi.prototype);
 // logger setup
 let log = bunyan.createLogger({name: "redis-logger"});
 
-// More options on: https://www.npmjs.com/package/redis#rediscreateclient
-let redisClient = redis.createClient();
-
-// Redis error listener
-redisClient.on("error", function(err) {
-  log.error({err: err});
-});
-
 /**
  * Service responsible for operations related to health facilities.
  */
@@ -33,6 +25,25 @@ class HealthFacilitiesService {
     this.openingHoursEnumGenerator = new EnumGenerator();
     this.servicesEnumGenerator = new EnumGenerator();
     this.citiesEnumGenerator = new EnumGenerator();
+    this.rowCount = 0;
+    this.countSleeping = false;
+
+    // More options on: https://www.npmjs.com/package/redis#rediscreateclient
+    this.redisClient = redis.createClient();
+
+    // Redis error listener
+    this.redisClient.on("error", function(err) {
+      log.error({err: err});
+    });
+  }
+
+  /**
+   * Ends the process.
+   */
+  end() {
+    log.info(`Total facilities processed: ${this.rowCount}`)
+    this.redisClient.quit();
+    this.redisClient = null;
   }
 
   /**
@@ -46,7 +57,7 @@ class HealthFacilitiesService {
     let cityEnum = this.citiesEnumGenerator.generate(healthFacility.address.city);
 
     // groups redis commands
-    let multi = redisClient.batch();
+    let multi = this.redisClient.batch();
 
     // adds the opening hours to the domain set
     multi.zadd(['facility_opening_hours_list', openingHoursEnum.id, `${openingHoursEnum.id}:${openingHoursEnum.description}`]);
@@ -79,6 +90,19 @@ class HealthFacilitiesService {
 
     // adds the health facility to the geographic index
     multi.geoadd('geo_facilities', healthFacility.longitude, healthFacility.latitude, healthFacility.id);
+
+    // debugs the row count
+    this.rowCount++;
+    if (!this.countSleeping) {
+      this.countSleeping = true;
+      let self = this;
+      setTimeout(() => {
+        if (self.redisClient) {
+          self.countSleeping = false;
+          log.info(`${this.rowCount} facilities processed so far...`);
+        }
+      }, 5000)
+    }
 
     // executes all commands in the same request
     return multi.execAsync();

@@ -68,6 +68,7 @@ class HealthFacilitiesParser {
 
       }).on("end", function() {
         // resolves the promise
+        service.end();
         resolve();
       });
 
