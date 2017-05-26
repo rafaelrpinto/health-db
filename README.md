@@ -44,7 +44,7 @@ To improve performance and avoid maps full of markers we only map hospitals, cli
 18:38:13.939Z  INFO app-logger: Process complete.
 ```
 
-Memory used by Redis after the db creation: `243.80M`
+Memory used by Redis after the db creation: `105.93M`
 
 ## Data structure
 
