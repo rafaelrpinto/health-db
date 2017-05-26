@@ -24,20 +24,24 @@ To create the db with the full dataset run:
 
 `npm run full`
 
-Output:
+## Ignored facilities
+
+To improve performance and avoid maps full of markers we only map hospitals, clinics, mobile units, etc.
+
+## Expected output:
 
 ```shell
-11:37:17.488Z  INFO app-logger: Initiating process.
-11:37:17.519Z  INFO redis-logger: Creating db version 1495712237519
-11:37:22.522Z  INFO redis-logger: 31336 facilities processed so far...
-11:37:27.526Z  INFO redis-logger: 64815 facilities processed so far...
-11:37:32.531Z  INFO redis-logger: 93633 facilities processed so far...
-11:37:37.534Z  INFO redis-logger: 122633 facilities processed so far...
-11:37:42.537Z  INFO redis-logger: 152680 facilities processed so far...
-11:37:47.537Z  INFO redis-logger: 190930 facilities processed so far...
-11:37:52.538Z  INFO redis-logger: 227641 facilities processed so far...
-11:37:57.465Z  INFO redis-logger: Total facilities processed: 264780
-11:37:57.466Z  INFO app-logger: Process complete.
+18:37:41.927Z  INFO app-logger: Initiating process.
+18:37:41.959Z  INFO redis-logger: Creating db version 1495823861959
+18:37:46.963Z  INFO redis-logger: 20920 facilities processed and 14339 ignored so far...
+18:37:51.968Z  INFO redis-logger: 42725 facilities processed and 29229 ignored so far...
+18:37:56.971Z  INFO redis-logger: 62868 facilities processed and 43200 ignored so far...
+18:38:01.981Z  INFO redis-logger: 82777 facilities processed and 57188 ignored so far...
+18:38:06.986Z  INFO redis-logger: 91242 facilities processed and 104524 ignored so far...
+18:38:12.004Z  INFO redis-logger: 98254 facilities processed and 148517 ignored so far...
+18:38:13.938Z  INFO redis-logger: Total facilities processed: 100663
+18:38:13.938Z  INFO redis-logger: Total facilities ignored: 164117
+18:38:13.939Z  INFO app-logger: Process complete.
 ```
 
 Memory used by Redis after the db creation: `243.80M`
@@ -75,17 +79,25 @@ This key holds the set of possible opening hours definitions for the health faci
 This key holds the set of possible facility types definitions for the health facilities.
 
 ```shell
-127.0.0.1:6379> ZRANGE facility_type_list 0 9
+127.0.0.1:6379> ZRANGE facility_type_list 0 20
+127.0.0.1:6379> ZRANGE facility_type_list 0 9999
  1) "1:HOSPITAL/DIA - ISOLADO"
- 2) "2:CENTRAL DE GESTAO EM SAUDE"
- 3) "3:CLINICA/CENTRO DE ESPECIALIDADE"
- 4) "4:HOSPITAL GERAL"
- 5) "5:CENTRO DE ATENCAO PSICOSSOCIAL"
- 6) "6:UNIDADE DE APOIO DIAGNOSE E TERAPIA (SADT ISOLADO)"
- 7) "7:CONSULTORIO ISOLADO"
- 8) "8:POSTO DE SAUDE"
- 9) "9:UNIDADE MOVEL DE NIVEL PRE-HOSPITALAR NA AREA DE URGENCIA"
-10) "10:CENTRO DE SAUDE/UNIDADE BASICA"
+ 2) "2:CLINICA/CENTRO DE ESPECIALIDADE"
+ 3) "3:HOSPITAL GERAL"
+ 4) "4:POSTO DE SAUDE"
+ 5) "5:UNIDADE MOVEL DE NIVEL PRE-HOSPITALAR NA AREA DE URGENCIA"
+ 6) "6:CENTRO DE SAUDE/UNIDADE BASICA"
+ 7) "7:PRONTO ATENDIMENTO"
+ 8) "8:HOSPITAL ESPECIALIZADO"
+ 9) "9:PRONTO SOCORRO GERAL"
+10) "10:POLICLINICA"
+11) "11:UNIDADE MOVEL FLUVIAL"
+12) "12:UNIDADE MISTA"
+13) "13:POLO ACADEMIA DA SAUDE"
+14) "14:CENTRO DE ATENCAO HEMOTERAPIA E OU HEMATOLOGICA"
+15) "15:UNIDADE DE ATENCAO A SAUDE INDIGENA"
+16) "16:UNIDADE MOVEL TERRESTRE"
+17) "17:PRONTO SOCORRO ESPECIALIZADO"
 ```
 
 - service_list

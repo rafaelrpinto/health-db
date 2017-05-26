@@ -8,6 +8,25 @@ let EnumGenerator = require('./enum')
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
+// We only accept hospitals, clinics, emergencies, etc.
+const ignoredFacilityTypes = new Set([
+  "COOPERATIVA",
+  "CENTRAL DE ",
+  "TELESSAUDE",
+  "VIGILANCIA",
+  "N/A",
+  "HOME CARE",
+  "RESIDENCIAL",
+  "PSICOSSOCIAL",
+  "CONSULTORIO",
+  "APOIO",
+  "FARMACIA",
+  "LABORATORIO",
+  "PREVENCAO",
+  "PARTO",
+  "OFICINA ORTOPEDICA"
+]);
+
 // logger setup
 let log = bunyan.createLogger({name: "redis-logger"});
 
@@ -28,6 +47,7 @@ class HealthFacilitiesService {
 
     //controle vars
     this.rowCount = 0;
+    this.ignored = 0;
     this.countSleeping = false;
     this.dbVersionSet = false;
 
@@ -45,6 +65,7 @@ class HealthFacilitiesService {
    */
   end() {
     log.info(`Total facilities processed: ${this.rowCount}`)
+    log.info(`Total facilities ignored: ${this.ignored}`)
     this.redisClient.quit();
     this.redisClient = null;
   }
@@ -54,6 +75,14 @@ class HealthFacilitiesService {
    * @param  {Object} healthFacility Facility to be saved.
    */
   saveFacility(healthFacility) {
+    // ignored types
+    for (let ignored of ignoredFacilityTypes) {
+      if (healthFacility.type.indexOf(ignored) != -1) {
+        this.ignored++;
+        return Promise.resolve();
+      }
+    }
+
     // generates enums
     let facilityTypeEnum = this.facilityTypeEnumGenerator.generate(healthFacility.type);
     let openingHoursEnum = this.openingHoursEnumGenerator.generate(healthFacility.openingHours);
@@ -111,7 +140,7 @@ class HealthFacilitiesService {
       setTimeout(() => {
         if (self.redisClient) {
           self.countSleeping = false;
-          log.info(`${this.rowCount} facilities processed so far...`);
+          log.info(`${this.rowCount} facilities processed and ${this.ignored} ignored so far...`);
         }
       }, 5000)
     }
