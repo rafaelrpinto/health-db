@@ -80,7 +80,6 @@ This key holds the set of possible facility types definitions for the health fac
 
 ```shell
 127.0.0.1:6379> ZRANGE facility_type_list 0 20
-127.0.0.1:6379> ZRANGE facility_type_list 0 9999
  1) "1:HOSPITAL/DIA - ISOLADO"
  2) "2:CLINICA/CENTRO DE ESPECIALIDADE"
  3) "3:HOSPITAL GERAL"
