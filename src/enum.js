@@ -26,7 +26,7 @@ class EnumGenerator {
       this.map.set(value, id);
     }
     // returns the identified enum
-    return {id: id, description: value}
+    return {id, description: value};
   }
 }
 

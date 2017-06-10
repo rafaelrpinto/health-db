@@ -9,6 +9,8 @@ An api server that accesses this db can be found [here](https://github.com/rafae
 
 ## Bulding the database
 
+This project was built using Node 8.1.0.
+
 The application connects to a local Redis instance running on 127.0.0.1:6379. (`TODO: make the it configurable`)
 
 Extract the .gz file located on the files folder. The correct structure should be:

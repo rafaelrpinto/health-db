@@ -2,7 +2,17 @@ let fs = require('fs');
 let csv = require('fast-csv');
 let removeAccents = require('remove-accents');
 // project dependencies
-let HealthFacilitiesService = require('./service')
+let HealthFacilitiesService = require('./service');
+
+/**
+ * Defines the value as N/A if it's absent.
+ */
+function val(value) {
+  if (!value) {
+    return 'N/A';
+  }
+  return removeAccents(value).toUpperCase();
+}
 
 /**
  * Class that parses a file containing health facilities.
@@ -40,14 +50,14 @@ class HealthFacilitiesParser {
       };
 
       // parses the CSV file
-      let csvStream = csv(parsingOptions).on("data", function(data) {
+      let csvStream = csv(parsingOptions).on('data', function(data) {
         // transforms the data structure
         let healthFacility = {
           id: data.co_cnes,
           ibge: data.co_ibge,
           type: val(data.ds_tipo_unidade),
           openingHours: val(data.ds_turno_atendimento),
-          services: val(data.ds_servico_especializado).split("|"),
+          services: val(data.ds_servico_especializado).split('|'),
           name: val(data.no_fantasia),
           businessName: val(data.no_razao_social),
           phone: val(data.nu_telefone),
@@ -65,8 +75,7 @@ class HealthFacilitiesParser {
 
         // stores the facility
         service.saveFacility(healthFacility).catch(reject);
-
-      }).on("end", function() {
+      }).on('end', function() {
         // resolves the promise
         service.end();
         resolve();
@@ -75,16 +84,6 @@ class HealthFacilitiesParser {
       stream.pipe(csvStream);
     });
   }
-}
-
-/**
- * Defines the value as N/A if it's absent.
- */
-function val(value) {
-  if (!value) {
-    return "N/A";
-  }
-  return removeAccents(value).toUpperCase();
 }
 
 module.exports = HealthFacilitiesParser;
