@@ -7,6 +7,8 @@ The raw data used as input is available on the Brazilian Government's [open data
 
 An api server that accesses this db can be found [here](https://github.com/rafaelrpinto/health-api).
 
+To build this database using DynamoDB see [this project](https://github.com/rafaelrpinto/health-dynamo-db)
+
 ## Bulding the database
 
 This project was built using Node 8.1.0.
